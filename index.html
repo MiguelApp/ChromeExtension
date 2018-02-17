@@ -6,24 +6,28 @@
     <title>HTML5 Session Storage</title>
     <link rel="stylesheet" href="styles/layout.css" type="text/css">
     <script type="text/javascript">
-        var text_size = 1.0;
+        
 
         document.addEventListener('DOMContentLoaded', () => {
             element = document.querySelectorAll('p,li,a,h1,h2,h3,h4,h5,h6');
-            for (i in element) {
+            for (var i=0; i < element.length; i++) {
                 element[i].addEventListener("mousewheel", MouseWheelHandler, false);
-               // element[i].addEventListener("mouseover", BlurAll, false);
+                element[i].addEventListener("mouseover", BlurAll, false);
+               
             }
         });
 
         function MouseWheelHandler(e) {
+            
+            var text_size = parseFloat(window.getComputedStyle(e.target, null).getPropertyValue('font-size'));
             if (e.deltaY >= 0) {
-                text_size = text_size + 0.005;
-                e.target.style.fontSize = text_size + "em";
+                text_size = text_size + 0.4;
+
+                e.target.style.fontSize = text_size + "px";
             } else {
                 if (text_size > 1) {
-                    text_size -= 0.005;
-                    e.target.style.fontSize = text_size + "em";
+                    text_size -= 0.4;
+                    e.target.style.fontSize = text_size + "px";
                 }
             }
             e.preventDefault();
@@ -31,13 +35,20 @@
         }
 
         function BlurAll(elem) {
-            console.log(elem);
-            for (i in element) {
-                if (elem !== element[i]) {
+            //console.log(elem);
+            
+            
+            for (var i=0; i < element.length; i++) {
+                
+                if (elem.target !== element[i]) {
                     element[i].style.filter = 'blur(2px)';
+                }else{
+                    element[i].parentElement.style.filter ='blur(0px)';
+                    element[i].style.filter ='blur(0px)';
+                    console.log(elem.target);
                 }
             }
-            e.preventDefault();
+            elem.preventDefault();
             return false;
         }
 
@@ -207,8 +218,5 @@
         </footer>
     </div>
 </body>
-
-</html>
-
 
 </html>
